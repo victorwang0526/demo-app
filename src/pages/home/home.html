@@ -1,14 +1,22 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      Demo
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v3">docs</a> will be your guide.
-  </p>
+  <ion-item>
+    <ion-label>输入：</ion-label>
+    <ion-input hideKeyboard placeholder="无键盘" #inputToFocus></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>输入：</ion-label>
+    <ion-input placeholder="有键盘"></ion-input>
+  </ion-item>
+  <button ion-button block (click)="openScan()">扫码</button>
+  <ion-item>
+    <ion-label>扫码：{{bc}}</ion-label>
+  </ion-item>
 </ion-content>
