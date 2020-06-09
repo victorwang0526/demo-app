@@ -8,6 +8,10 @@
 
 <ion-content padding>
   <ion-item>
+    <ion-label>用户：</ion-label>
+    <ion-input [value]="user?.username" disabled></ion-input>
+  </ion-item>
+  <ion-item>
     <ion-label>输入：</ion-label>
     <ion-input hideKeyboard placeholder="无键盘" #inputToFocus></ion-input>
   </ion-item>
@@ -19,4 +23,13 @@
   <ion-item>
     <ion-label>扫码：{{bc}}</ion-label>
   </ion-item>
+  <button ion-button block color="danger" (click)="logout()">退出</button>
+
+  <ion-item>
+    <ion-label>双向：</ion-label>
+    <ion-input [(ngModel)]="text" placeholder="双向绑定 - 外"></ion-input>
+  </ion-item>
+  <com-name [(text)]="text"></com-name>
+  <button ion-button block (click)="openTestPage()">传参</button>
+
 </ion-content>

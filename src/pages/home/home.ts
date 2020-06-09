@@ -1,7 +1,10 @@
 import {Component, ViewChild} from '@angular/core';
-import { NavController } from 'ionic-angular';
+import {NavController} from 'ionic-angular';
 import {BarcodeScanner} from "@ionic-native/barcode-scanner";
-import {Keyboard} from "@ionic-native/keyboard";
+import {UserVo} from "../../models/user-vo";
+import {Storage} from "@ionic/storage";
+import {LoginPage} from "../login/login";
+import {TestPage} from "../test/test";
 
 
 @Component({
@@ -13,14 +16,20 @@ export class HomePage {
   bc: string = '';
   @ViewChild('inputToFocus') inputToFocus;
 
+  user: UserVo = null;
+
+  text: string = '';
+
   constructor(public navCtrl: NavController,
               private barcodeScanner: BarcodeScanner,
-              private keyboard: Keyboard) {
-    console.log('1');
+              private storage: Storage) {
 
   }
-  ionViewDidEnter()
-  {
+  ionViewDidEnter() {
+    this.storage.get('user').then(u => {
+      this.user = u;
+    });
+
     setTimeout(() => {
       this.inputToFocus.setFocus();
     },1000)
@@ -33,5 +42,20 @@ export class HomePage {
     }).catch(err => {
       console.log('Error', err);
     });
+  }
+
+  logout() {
+    this.storage.clear().then(() => {
+      this.navCtrl.setRoot(LoginPage, {});
+    })
+  }
+
+  openTestPage() {
+    this.navCtrl.push(TestPage, {
+      params: {
+        a: 1,
+        b: 2
+      }
+    })
   }
 }
