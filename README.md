@@ -8,7 +8,7 @@
 ```
 
 
-### 
+### create
 
 ```shell script
 
@@ -31,3 +31,6 @@ ionic g provider provider-name
 
 ionic g pipe pipe-name
 ```
+
+
+## build android
