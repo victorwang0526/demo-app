@@ -16,7 +16,7 @@
 
 ionic g page page-name
 
--- 添加到src/app/app.module.ts的declarations/entryComponents中
+-- 删除{page}.module.ts，添加{Page}Page到src/app/app.module.ts的pages中
 
 
 -- 创建组件

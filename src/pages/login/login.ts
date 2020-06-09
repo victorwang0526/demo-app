@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {AlertController, LoadingController, NavController} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import {BarcodeScanner} from "@ionic-native/barcode-scanner";
 import {UserProvider} from "../../providers/user-provider";
 import {HomePage} from "../home/home";
 
@@ -18,8 +17,7 @@ export class LoginPage {
               public alertCtrl: AlertController,
               public userService: UserProvider,
               public loadingController: LoadingController,
-              private storage: Storage,
-              private barcodeScanner: BarcodeScanner) {
+              private storage: Storage) {
 
   }
 
@@ -30,26 +28,20 @@ export class LoginPage {
     }
     const loading = await this.loadingController.create({});
     await loading.present();
-    this.userService.login(this.username, this.password, this.deviceId)
-      .subscribe((res) => {
-        if(res.code != 0) {
-          this.alertCtrl.create({title: res.msg}).present({});
-          return;
-        }
-        localStorage.setItem('token', res.data.token);
-        this.getUserInfo();
-      }, error => {
-        this.alertCtrl.create({message: '登录异常，请稍后再试.' + JSON.stringify(error)}).present({});
-      }, () => {
-        loading.dismiss();
-      })
+    const res = await this.userService.login(this.username, this.password, this.deviceId);
+    await loading.dismiss();
+    if(res.code != 0) {
+      this.alertCtrl.create({title: res.msg}).present({});
+      return;
+    }
+    localStorage.setItem('token', res.data.token);
+    this.getUserInfo();
   }
 
-  getUserInfo() {
-    this.userService.getUserInfo().subscribe((res: any) => {
-      this.storage.set('user', res.data);
-      this.navCtrl.setRoot(HomePage);
-    });
+  async getUserInfo() {
+    const u = await this.userService.getUserInfo();
+    await this.storage.set('user', u);
+    await this.navCtrl.setRoot(HomePage);
   }
 
 }
